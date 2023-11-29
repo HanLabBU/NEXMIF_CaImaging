@@ -62,8 +62,8 @@ for m = 1: numel(miceStudy)
             
             [start_idx_high,finish_idx_high,start_idx_low,finish_idx_low,movBoutIdx,restBoutIdx] = detectMovementHigh(speed,percent_high,smooth_filt_width,sigmoid_slope,sigmoid_threshold,on_dur_threshold,off_dur_threshold,mouse,mouseType,day,Fs,isPlot);% Detect onst and offset of movement
             if isPlot
-                saveas(gcf,fullfile('D:\Autism\Event analysis\Results\SpeedPlots\',sprintf('Speed_%s_D%i_%s.fig',miceStudy{m},dIdx(d),lower(conditionList{c}))))
-                saveas(gcf,fullfile('D:\Autism\Event analysis\Results\SpeedPlots\',sprintf('Speed_%s_D%i_%s.png',miceStudy{m},dIdx(d),lower(conditionList{c}))))
+%                 saveas(gcf,fullfile('D:\Autism\Event analysis\Results\SpeedPlots\',sprintf('Speed_%s_D%i_%s.fig',miceStudy{m},dIdx(d),lower(conditionList{c}))))
+%                 saveas(gcf,fullfile('D:\Autism\Event analysis\Results\SpeedPlots\',sprintf('Speed_%s_D%i_%s.png',miceStudy{m},dIdx(d),lower(conditionList{c}))))
             end
             fullData.movBoutStart = start_idx_high;
             fullData.movBoutFinish = finish_idx_high;

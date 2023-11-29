@@ -90,14 +90,14 @@ for m = 1:numel(miceStudy)
                 blockTraceMeanWTMice = blockTraceMeanWTMice + blockTraceMeanSession;
                 WT_cnt = WT_cnt+1;
                 figure(figWT);
-                p1 = plot([1:numel(blockTraceMeanSession)]/20*1000,blockTraceMeanSession,'color',[colors(1,:), 0.4],'LineWidth',2);
+                p1 = plot([1:numel(blockTraceMeanSession)]/20*1000,blockTraceMeanSession,'color',[colors(2,:), 0.2],'LineWidth',2);
                 hold on
             end
             if ~maskWT(m)
                 blockTraceMeanKOMice = blockTraceMeanKOMice + blockTraceMeanSession;
                 KO_cnt = KO_cnt+1;
                 figure(figKO);
-                p2 = plot([1:numel(blockTraceMeanSession)]/20*1000,blockTraceMeanSession,'color',[colors(3,:), 0.4],'LineWidth',2);
+                p2 = plot([1:numel(blockTraceMeanSession)]/20*1000,blockTraceMeanSession,'color',[colors(4,:), 0.2],'LineWidth',2);
                 hold on
             end
         end
@@ -110,25 +110,33 @@ blockTraceMeanKOMice = blockTraceMeanKOMice/KO_cnt;
 %%
 
 figure(figWT);
-p3 = plot([1:numel(blockTraceMeanWTMice)]/20*1000,blockTraceMeanWTMice,'color',colors(2,:),'LineWidth',2);
+p3 = plot([1:numel(blockTraceMeanWTMice)]/20*1000,blockTraceMeanWTMice,'color',colors(2,:),'LineWidth',4);
 set(gcf,'Units','inches','InnerPosition',[1, 3, 2, 2])
 set(gca,'TickDir', 'out','TickLength',[0.03, 0.025], 'Color','none')
 box off
 %title('Average calcium event WT')
 %legend([p1,p3],{'Session Average','WT Average'})
-saveas(gcf,fullfile('U:\eng_research_handata\Athif Mohamed\nexmif_paper\code_final\plots\b_WTKO_traces\WT_mid.png'))
-saveas(gcf,fullfile('U:\eng_research_handata\Athif Mohamed\nexmif_paper\code_final\plots\b_WTKO_traces\WT_mid.fig'))
-saveas(gcf,fullfile('U:\eng_research_handata\Athif Mohamed\nexmif_paper\code_final\plots\b_WTKO_traces\WT_mid.epsc'))
+saveas(gcf,fullfile('U:\eng_research_handata\Athif Mohamed\nexmif_paper\code_final\plots\b_WTKO_traces\WT_mid.pdf'))
+% saveas(gcf,fullfile('U:\eng_research_handata\Athif Mohamed\nexmif_paper\code_final\plots\b_WTKO_traces\WT_mid.fig'))
+% saveas(gcf,fullfile('U:\eng_research_handata\Athif Mohamed\nexmif_paper\code_final\plots\b_WTKO_traces\WT_mid.epsc'))
 figWT(end)
-
+% 
 figure(figKO);
-p4 = plot([1:numel(blockTraceMeanKOMice)]/20*1000,blockTraceMeanKOMice,'color',colors(4,:),'LineWidth',2);
+p4 = plot([1:numel(blockTraceMeanKOMice)]/20*1000,blockTraceMeanKOMice,'color',colors(4,:),'LineWidth',4);
 set(gcf,'Units','inches','InnerPosition',[1, 3, 2, 2])
 set(gca,'TickDir', 'out','TickLength',[0.03, 0.025], 'Color','none')
 box off
 % title('Average calcium event KO')
 % legend([p2,p4],{'Session Average','KO Average'})
-saveas(gcf,fullfile('U:\eng_research_handata\Athif Mohamed\nexmif_paper\code_final\plots\b_WTKO_traces\KO_mid.png'))
-saveas(gcf,fullfile('U:\eng_research_handata\Athif Mohamed\nexmif_paper\code_final\plots\b_WTKO_traces\KO_mid.fig'))
-saveas(gcf,fullfile('U:\eng_research_handata\Athif Mohamed\nexmif_paper\code_final\plots\b_WTKO_traces\KO_mid.epsc'))
+saveas(gcf,fullfile('U:\eng_research_handata\Athif Mohamed\nexmif_paper\code_final\plots\b_WTKO_traces\KO_mid.pdf'))
+% saveas(gcf,fullfile('U:\eng_research_handata\Athif Mohamed\nexmif_paper\code_final\plots\b_WTKO_traces\KO_mid.fig'))
+% saveas(gcf,fullfile('U:\eng_research_handata\Athif Mohamed\nexmif_paper\code_final\plots\b_WTKO_traces\KO_mid.epsc'))
 figKO(end)
+
+
+figure
+p4 = plot([1:numel(blockTraceMeanWTMice)]/20*1000,(blockTraceMeanWTMice+blockTraceMeanKOMice)./2,'color','k','LineWidth',4);
+set(gcf,'Units','inches','InnerPosition',[1, 3, 2, 2])
+set(gca,'TickDir', 'out','TickLength',[0.03, 0.025], 'Color','none')
+box off
+saveas(gcf,fullfile('U:\eng_research_handata\Athif Mohamed\nexmif_paper\code_final\plots\b_WTKO_traces\template.pdf'))

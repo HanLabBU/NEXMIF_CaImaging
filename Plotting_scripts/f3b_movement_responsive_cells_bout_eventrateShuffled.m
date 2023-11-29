@@ -119,50 +119,79 @@ for colIdx = 1 % 1 - high movement, 2 - low movement
 %         saveas(gcf,fullfile('U:\eng_research_handata\Athif Mohamed\nexmif_paper\code_final\plots\d_movement_responsive_cells\8.3.22',sprintf('shuffled %s fisher.png',featureNames{colIdx})))
 %         saveas(gcf,fullfile('U:\eng_research_handata\Athif Mohamed\nexmif_paper\code_final\plots\d_movement_responsive_cells\8.3.22',sprintf('shuffled %s fisher.fig',featureNames{colIdx})))
 %         saveas(gcf,fullfile('U:\eng_research_handata\Athif Mohamed\nexmif_paper\code_final\plots\d_movement_responsive_cells\8.3.22',sprintf('shuffled %s fisher.epsc',featureNames{colIdx})))
-%%
-%     %% plot sessionwise
-%     
-%     [GWT,MWT,DWT] = findgroups(responsive_cells_table{isWT_pop&IdxEv,1} , responsive_cells_table{isWT_pop&IdxEv,2});
-%     [GKO,MKO,DKO] = findgroups(responsive_cells_table{~isWT_pop&IdxEv,1} , responsive_cells_table{~isWT_pop&IdxEv,2});
-%     
-%     meanWT = splitapply(@count1s,responsive_cells_table{isWT_pop&IdxEv,col},GWT);
-%     meanKO = splitapply(@count1s,responsive_cells_table{~isWT_pop&IdxEv,col},GKO);
-%     
-%     figure
-%     b1 = boxchart(ones(size(meanWT)),...
-%         meanWT,...
-%         'MarkerStyle','none',...
-%         'BoxFaceColor',colors(2,:),...
-%         'BoxFaceAlpha',0,...
-%         'WhiskerLineColor', colors(2,:),...
-%         'LineWidth',2);
-%     hold on
-%     s1 = scatter(1,meanWT,[],colors(2,:),'filled');
-%     hold on
-%     b2 = boxchart(2*ones(size(meanKO)),...
-%         meanKO,...
-%         'MarkerStyle','none',...
-%         'BoxFaceColor',colors(4,:),...
-%         'BoxFaceAlpha',0,...
-%         'WhiskerLineColor', colors(4,:),...
-%         'LineWidth',2);
-%     hold on
-%     s2 = scatter(2,meanKO,[],colors(4,:),'filled');
-%     
-%     
-%     xlim([0.5,2.5])
-%     % ylim([0,27])
-%     xticks([1,2])
-%     xticklabels({'WT','KO'})
-%     
-%     
-%    
-%     % set(gcf,'Color','none')
-%     set(gca,'Units','inches','InnerPosition',[.5 .3 2 2],'TickDir','out','TickLength',[0.03, 0.025],'Color','none','Box','off','LineWidth',2)
-%     
-%     
-%     [h,p] = ttest2(meanWT,meanKO);
+%% plot as stacked bar
+    figure
+    fullSetWT = [pr_WT;pr_KO];
+    fullSetKO = [100-pr_WT;100-pr_KO];
+    b = bar([-1,1],[fullSetWT,fullSetKO],"stacked");
+    b(1).FaceColor = 'flat';
+    b(2).FaceColor = 'flat';
+%     b.EdgeColor = 'flat';
+%     b.LineWidth = 1;
+    b(1).CData = colors([2,4],:);
+    b(2).CData = [1 1 1;1 1 1];
+    hold on
+    xticks(gca,[-1 1])
+    xticklabels(gca, {'WT','KO'})
+    er = errorbar([-1,1],[pr_WT,pr_KO],1.96*[SEP_WT,SEP_KO],'CapSize',18);
+    er.Color = [0 0 0];
+    er.LineStyle = 'none';
+    er.LineWidth = 0.5;
+    xlim([-2.5,2.5])
+%     yy = ylim;
+%     %      text(0,yy(2)*0.99,sprintf('Fisher sig: p = %d',p_f),'HorizontalAlignment','center')
+%     ylim([0 yy(2)*1.01]);
+    ylabel('Percentage of Total Cells')
+    set(gcf,'Color','none')
+    set(gca,'Units','inches','InnerPosition',[.5 .3 2 2],'TickDir','out','TickLength',[0.03, 0.025],'Color','none','Box','off','LineWidth',2)
+    
+    saveas(gcf,fullfile('U:\eng_research_handata\Athif Mohamed\nexmif_paper\code_final\plots\d_movement_responsive_cells\2.15.23',sprintf('stacked shuffled %s fisher.png',featureNames{colIdx})))
+    saveas(gcf,fullfile('U:\eng_research_handata\Athif Mohamed\nexmif_paper\code_final\plots\d_movement_responsive_cells\2.15.23',sprintf('stacked shuffled %s fisher.fig',featureNames{colIdx})))
+    saveas(gcf,fullfile('U:\eng_research_handata\Athif Mohamed\nexmif_paper\code_final\plots\d_movement_responsive_cells\2.15.23',sprintf('stacked shuffled %s fisher.epsc',featureNames{colIdx})))
+    saveas(gcf,fullfile('U:\eng_research_handata\Athif Mohamed\nexmif_paper\code_final\plots\d_movement_responsive_cells\2.15.23',sprintf('stacked shuffled %s fisher.pdf',featureNames{colIdx})))
 
+%% plot sessionwise
+    
+    [GWT,MWT,DWT] = findgroups(responsive_cells_table{isWT_pop&IdxEv,1} , responsive_cells_table{isWT_pop&IdxEv,2});
+    [GKO,MKO,DKO] = findgroups(responsive_cells_table{~isWT_pop&IdxEv,1} , responsive_cells_table{~isWT_pop&IdxEv,2});
+    
+    meanWT = splitapply(@count1s,responsive_cells_table{isWT_pop&IdxEv,col},GWT);
+    meanKO = splitapply(@count1s,responsive_cells_table{~isWT_pop&IdxEv,col},GKO);
+    
+    figure
+    b1 = boxchart(ones(size(meanWT)),...
+        meanWT,...
+        'MarkerStyle','none',...
+        'BoxFaceColor',colors(2,:),...
+        'BoxFaceAlpha',0,...
+        'WhiskerLineColor', colors(2,:),...
+        'LineWidth',2);
+    hold on
+    s1 = scatter(1,meanWT,[],colors(2,:),'filled');
+    hold on
+    b2 = boxchart(2*ones(size(meanKO)),...
+        meanKO,...
+        'MarkerStyle','none',...
+        'BoxFaceColor',colors(4,:),...
+        'BoxFaceAlpha',0,...
+        'WhiskerLineColor', colors(4,:),...
+        'LineWidth',2);
+    hold on
+    s2 = scatter(2,meanKO,[],colors(4,:),'filled');
+    
+    
+    xlim([0.5,2.5])
+    % ylim([0,27])
+    xticks([1,2])
+    xticklabels({'WT','KO'})
+    
+    
+   
+    % set(gcf,'Color','none')
+    set(gca,'Units','inches','InnerPosition',[.5 .3 2 2],'TickDir','out','TickLength',[0.03, 0.025],'Color','none','Box','off','LineWidth',2)
+    
+    
+    [h,p] = ttest2(meanWT,meanKO);
 %     saveas(gcf,fullfile('U:\eng_research_handata\Athif Mohamed\nexmif_paper\code_final\plots\d_movement_responsive_cells',sprintf('Sessionwise shuffled %s boxplot.png',featureNames{colIdx})))
 %     saveas(gcf,fullfile('U:\eng_research_handata\Athif Mohamed\nexmif_paper\code_final\plots\d_movement_responsive_cells',sprintf('Sessionwise shuffled %s boxplot.fig',featureNames{colIdx})))
 %     saveas(gcf,fullfile('U:\eng_research_handata\Athif Mohamed\nexmif_paper\code_final\plots\d_movement_responsive_cells',sprintf('Sessionwise shuffled %s boxplot.epsc',featureNames{colIdx})))

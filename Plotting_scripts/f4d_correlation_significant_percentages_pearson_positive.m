@@ -1,5 +1,7 @@
 %% Description
 
+% Plots of cells correlated to each other marked by their physical location
+% only positive correlation plotted
 %% Initialize
 
 addpath(genpath('U:\eng_research_handata\Athif Mohamed\nexmif_paper\Utils\'))  % Add utilities
@@ -93,9 +95,9 @@ end
 
 set(gcf,'Color','none')
 set(gca,'Units','inches','InnerPosition',[.8 .5 3 2],'TickDir','out','TickLength',[0.03, 0.025],'Color','none','Box','off','LineWidth',2)
-saveas(gcf,fullfile('U:\eng_research_handata\Athif Mohamed\nexmif_paper\code_final\plots\e1_correlation_significant_percentages\8.3.22',sprintf('Pearson Perc of sig corr out of all edges.fig')));
-saveas(gcf,fullfile('U:\eng_research_handata\Athif Mohamed\nexmif_paper\code_final\plots\e1_correlation_significant_percentages\8.3.22',sprintf('Pearson Perc of sig corr out of all edges.png')));
-saveas(gcf,fullfile('U:\eng_research_handata\Athif Mohamed\nexmif_paper\code_final\plots\e1_correlation_significant_percentages\8.3.22',sprintf('Pearson Perc of sig corr out of all edges.epsc')));
+% saveas(gcf,fullfile('U:\eng_research_handata\Athif Mohamed\nexmif_paper\code_final\plots\e1_correlation_significant_percentages\8.3.22',sprintf('Pearson Perc of sig corr out of all edges.fig')));
+% saveas(gcf,fullfile('U:\eng_research_handata\Athif Mohamed\nexmif_paper\code_final\plots\e1_correlation_significant_percentages\8.3.22',sprintf('Pearson Perc of sig corr out of all edges.png')));
+% saveas(gcf,fullfile('U:\eng_research_handata\Athif Mohamed\nexmif_paper\code_final\plots\e1_correlation_significant_percentages\8.3.22',sprintf('Pearson Perc of sig corr out of all edges.epsc')));
 
 
 %% Fisher - cellwise
@@ -143,26 +145,27 @@ for ff = 1:4
         fisher_struct(ff).stats_f] = fishertest(fisher_struct(ff).fisherMat,'Alpha',0.05);%,'Tail','right'
     
     fisher_struct(ff).pr_1 = fisher_struct(ff).fisherMat(1,1)/(fisher_struct(ff).fisherMat(1,1)+ fisher_struct(ff).fisherMat(1,2))*100;
-    fisher_struct(ff).SEP_1 = 1.96*sqrt(fisher_struct(ff).pr_1*(100-fisher_struct(ff).pr_1)/(fisher_struct(ff).fisherMat(1,1)+ fisher_struct(ff).fisherMat(1,2)));
+    fisher_struct(ff).SEP_1 = 1.96*sqrt(fisher_struct(ff).pr_1*(100-fisher_struct(ff).pr_1)/(fisher_struct(ff).fisherMat(1,1)+fisher_struct(ff).fisherMat(1,2)));
     fisher_struct(ff).pr_2 = fisher_struct(ff).fisherMat(2,1)/(fisher_struct(ff).fisherMat(2,1)+ fisher_struct(ff).fisherMat(2,2))*100;
     fisher_struct(ff).SEP_2 = 1.96*sqrt(fisher_struct(ff).pr_2*(100-fisher_struct(ff).pr_2)/(fisher_struct(ff).fisherMat(2,1)+ fisher_struct(ff).fisherMat(2,2)));
 end
 
-
+%%
 
 figure
-b = bar([1,2,3,4],[fisher_struct(1).pr_1,...
+b = bar([1,1.5,2,2.5],[fisher_struct(1).pr_1,...
     fisher_struct(2).pr_1,...
     fisher_struct(1).pr_2,...
     fisher_struct(2).pr_2]);
-b.FaceColor = 'none';
-b.EdgeColor = 'flat';
-b.LineWidth = 2;
+b.FaceColor = 'flat';
+b.EdgeColor = 'k';
+b.LineWidth = 0.75;
+b.BarWidth = 0.5;
 b.CData = colors;
 hold on
-xticks(gca,[1,2,3,4])
-xticklabels(gca, {'WTRest','WTRun','KORest','KORun'})
-er = errorbar([1,2,3,4],[fisher_struct(1).pr_1,...
+xticks(gca,[1,1.5,2,2.5])
+% xticklabels(gca, {'WTRest','WTRun','KORest','KORun'})
+er = errorbar([1,1.5,2,2.5],[fisher_struct(1).pr_1,...
     fisher_struct(2).pr_1,...
     fisher_struct(1).pr_2,...
     fisher_struct(2).pr_2],...
@@ -172,8 +175,8 @@ er = errorbar([1,2,3,4],[fisher_struct(1).pr_1,...
     fisher_struct(2).SEP_2]);
 er.Color = [0 0 0];
 er.LineStyle = 'none';
-er.LineWidth = 2;
-xlim([0.5,4.5])
+er.LineWidth = 0.2;
+xlim([0.75,2.75])
 yy = ylim;
 
 
@@ -182,9 +185,10 @@ yy = ylim;
 % text(2,1.15*yy(2),sprintf('p* = %.4f',fisher_struct(1).p_f*4),'HorizontalAlignment','Center')
 % text(3,1.15*yy(2),sprintf('p* = %.4f',fisher_struct(2).p_f*4),'HorizontalAlignment','Center')
 ylim([0,yy(2)*1.2])
-ylabel('Significantly correlated cells (%)')
-set(gcf,'Color','none')
-set(gca,'Units','inches','InnerPosition',[.8 .5 3 2],'TickDir','out','TickLength',[0.03, 0.025],'Color','none','Box','off','LineWidth',2)
+% ylabel('Significantly correlated cells (%)')
+% set(gcf,'Color','none')
+% set(gca,'Units','inches','InnerPosition',[.8 .5 3 2],'TickDir','out','TickLength',[0.03, 0.025],'Color','none','Box','off','LineWidth',2)
+set(gca,'Units','inches','InnerPosition',[.8 .5 1.25 1],'TickDir','out','TickLength',[0.03, 0.025],'Color','none','Box','off','LineWidth',0.5)
 
 % saveas(gcf,fullfile('U:\eng_research_handata\Athif Mohamed\nexmif_paper\code_final\plots\e1_correlation_significant_percentages',sprintf('Pearson Perc of sig corr out of all edges cellwise.fig')));
 % saveas(gcf,fullfile('U:\eng_research_handata\Athif Mohamed\nexmif_paper\code_final\plots\e1_correlation_significant_percentages',sprintf('Pearson Perc of sig corr out of all edges cellwise.png')));
